@@ -2,7 +2,7 @@ name: Cleanup drafts
 
 on:
   schedule:
-    - cron: '0 5 * * *'
+    - cron: "0 5 * * *"
   # push:
   #   branches:
   #     - 'master'
@@ -18,4 +18,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |-
+          sudo apt install -y hub
           hub release -f "%T (%S) %n" --include-drafts  | grep " (draft)" | awk '{print $1}' | xargs -t -n1 hub release delete || exit 0

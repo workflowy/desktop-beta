@@ -19,7 +19,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |-
-          sudo add-apt-repository -y ppa:cpick/hub
-          sudo apt update
-          sudo apt install -y hub
+          wget -qO- https://github.com/mislav/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz | tar zxf - --strip-components=1 -C /tmp
+          export PATH="/tmp/bin:$PATH"
           hub release -f "%T (%S) %n" --include-drafts  | grep " (draft)" | awk '{print $1}' | xargs -t -n1 hub release delete || exit 0

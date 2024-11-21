@@ -18,5 +18,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |-
+          sudo add-apt-repository -y ppa:cpick/hub
+          sudo apt update
           sudo apt install -y hub
           hub release -f "%T (%S) %n" --include-drafts  | grep " (draft)" | awk '{print $1}' | xargs -t -n1 hub release delete || exit 0
